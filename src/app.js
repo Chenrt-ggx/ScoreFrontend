@@ -2,6 +2,10 @@ import './app.css';
 import React from 'react';
 import {GithubOutlined, InboxOutlined, InfoCircleOutlined, LinkOutlined, SelectOutlined} from '@ant-design/icons';
 
+import update from 'immutability-helper';
+import {HTML5Backend} from 'react-dnd-html5-backend';
+import {DndProvider, useDrag, useDrop} from 'react-dnd';
+
 import {Col, Row, Layout, Space} from 'antd';
 import {Button, Card, Divider, Empty, Table, Tag} from 'antd';
 import {message, Upload, Form, Radio, Input, InputNumber} from 'antd';
@@ -41,7 +45,39 @@ const columns = [
   }
 ];
 
-function formatName(repo) {
+// eslint-disable-next-line react/prop-types
+const DraggableBodyRow = ({index, moveRow, className, style, ...restProps}) => {
+  const ref = React.useRef(null);
+  const [{isOver, dropClassName}, drop ] = useDrop({
+    accept: 'DraggableBodyRow',
+    collect: (monitor) => {
+      const {index: dragIndex} = monitor.getItem() || {};
+      return dragIndex === index ? {} : {
+        isOver: monitor.isOver(),
+        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward'
+      };
+    },
+    drop: (item) => moveRow(item.index, index)
+  });
+  const [ , drag ] = useDrag({
+    type: 'DraggableBodyRow',
+    item: {index},
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  });
+  drop(drag(ref));
+  return (
+    <tr
+      ref={ref}
+      className={`${className}${isOver ? dropClassName : ''}`}
+      style={{cursor: 'move', ...style}}
+      {...restProps}
+    />
+  );
+};
+
+const formatName = (repo) => {
   const split = repo.split('/');
   const name = split[split.length - 1];
   let result = name[0];
@@ -52,10 +88,12 @@ function formatName(repo) {
       result += name[i];
     }
   }
-  return result;
-}
+  return {url: repo, name: result};
+};
 
 export default class App extends React.Component {
+  formRef = React.createRef();
+
   constructor(props) {
     super(props);
     this.state = {
@@ -71,6 +109,12 @@ export default class App extends React.Component {
           name: 'bbb',
           score: 98,
           credits: 4,
+          optional: false
+        },
+        {
+          name: 'ccc',
+          score: 97,
+          credits: 5,
           optional: false
         }
       ]
@@ -89,8 +133,6 @@ export default class App extends React.Component {
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
-
-  formRef = React.createRef();
 
   onFinish = (values) => {
     console.log(values);
@@ -119,8 +161,8 @@ export default class App extends React.Component {
 
   render() {
     const repos = [
-      'https://github.com/Chenrt-ggx/ScoreCalculator',
-      'https://github.com/Chenrt-ggx/ScoreFrontend'
+      formatName('https://github.com/Chenrt-ggx/ScoreCalculator'),
+      formatName('https://github.com/Chenrt-ggx/ScoreFrontend')
     ];
     return (
       <Layout>
@@ -139,14 +181,30 @@ export default class App extends React.Component {
           <Col md={18} lg={16} xl={14} style={{paddingLeft: '5px'}}>{
             this.state.courses.length === 0 ?
               <Empty description={'暂无数据'}/> :
-              <Table columns={columns}
-                dataSource={this.state.courses.map((i) => {
-                  return {...i, key: i.name};
-                })}
-                size="middle"
-                pagination={false}
-                style={{marginRight: '2vw'}}
-              />
+              <DndProvider backend={HTML5Backend}>
+                <Table
+                  id={'main-table'}
+                  columns={columns}
+                  dataSource={this.state.courses.map((i) => {
+                    return {...i, key: i.name};
+                  })}
+                  size="middle"
+                  pagination={false}
+                  style={{marginRight: '2vw'}}
+                  components={{body: {row: DraggableBodyRow}}}
+                  onRow={(record, index) => ({
+                    index,
+                    moveRow: (dragIndex, hoverIndex) => {
+                      const dragRow = this.state.courses[dragIndex];
+                      this.setState({
+                        courses: update(this.state.courses, {
+                          $splice: [[ dragIndex, 1 ], [ hoverIndex, 0, dragRow ]]
+                        })
+                      });
+                    }
+                  })}
+                />
+              </DndProvider>
           }</Col>
           <Col span={6} style={{paddingRight: '5px'}}>
             <Divider style={{marginBottom: '30px'}}>文件上传</Divider>
@@ -191,12 +249,12 @@ export default class App extends React.Component {
                 ]}>
                   <InputNumber min={0.5} max={10} step={0.5}/>
                 </Form.Item>
-                <Form.Item name="optional" label="课程类型" rules={[
+                <Form.Item name="optional" label="一般专业" rules={[
                   {required: true}
                 ]}>
                   <Radio.Group>
-                    <Radio.Button value={true}>一般专业</Radio.Button>
-                    <Radio.Button value={false}>其它</Radio.Button>
+                    <Radio.Button value={true}>是</Radio.Button>
+                    <Radio.Button value={false}>否</Radio.Button>
                   </Radio.Group>
                 </Form.Item>
                 <Form.Item>
@@ -219,12 +277,12 @@ export default class App extends React.Component {
           </Divider>
           <Space size={'middle'}>{
             repos.map((i) =>
-              <a key={i} href={i}>
+              <a key={i.url} href={i.url}>
                 <Card size="small" style={{width: 300, display: 'inline-block', fontSize: '1.2vw'}}>
                   <span style={{float: 'left', marginLeft: '0.7vw'}}>
                     <GithubOutlined/>
                     <Divider type="vertical"/>
-                    <span style={{fontSize: '1vw'}}>{formatName(i)}</span>
+                    <span style={{fontSize: '1vw'}}>{i.name}</span>
                   </span>
                   <span style={{float: 'right', marginRight: '0.7vw'}}>
                     <LinkOutlined style={{color: '#61dafb'}}/>

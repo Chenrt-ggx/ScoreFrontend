@@ -2,3 +2,11 @@
     color: #030852;
     font-size: 1.3vw;
 }
+
+#main-table tr.drop-over-downward td {
+    border-bottom: 2px dashed #1890ff;
+}
+
+#main-table tr.drop-over-upward td {
+    border-top: 2px dashed #1890ff;
+}
