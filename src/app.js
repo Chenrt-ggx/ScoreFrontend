@@ -27,21 +27,21 @@ const columns = [
     key: 'name',
     sorter: (l, r) => l < r ? -1 : l > r ? 1 : 0,
     ellipsis: true,
-    width: 240
+    width: 160
   },
   {
     title: '课程成绩',
     dataIndex: 'score',
     key: 'score',
     sorter: (l, r) => l.score - r.score,
-    width: 120
+    width: 110
   },
   {
     title: '课程学分',
     dataIndex: 'credits',
     key: 'credits',
     sorter: (l, r) => l.credits - r.credits,
-    width: 120
+    width: 110
   },
   {
     title: '课程类型',
@@ -60,7 +60,16 @@ const columns = [
       </Space>
     ),
     sorter: (l, r) => r.optional - l.optional,
-    width: 140
+    width: 150
+  },
+  {
+    title: '操作',
+    key: 'action',
+    render: () => (
+      <Button danger>删除</Button>
+    ),
+    align: 'center',
+    width: 80
   }
 ];
 
@@ -249,7 +258,12 @@ export default class App extends React.Component {
               </div>
           }</Col>
           <Col span={6} style={{paddingRight: '5px'}}>
-            <Divider style={{marginBottom: '30px'}}>文件上传</Divider>
+            <Divider style={{marginBottom: '20px'}}>批量操作</Divider>
+            <Space>
+              <Button type='primary'>清空课程</Button>
+              <Button type='primary'>黑暗模式</Button>
+            </Space>
+            <Divider style={{marginBottom: '30px'}}>上传文件</Divider>
             <div>
               <Dragger beforeUpload={() => false} maxCount={1} onChange={this.handleUpload}>
                 <p className='ant-upload-drag-icon'>
