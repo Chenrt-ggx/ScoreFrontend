@@ -25,19 +25,23 @@ const columns = [
     title: '课程名称',
     dataIndex: 'name',
     key: 'name',
-    sorter: (l, r) => l < r ? -1 : l > r ? 1 : 0
+    sorter: (l, r) => l < r ? -1 : l > r ? 1 : 0,
+    ellipsis: true,
+    width: 240
   },
   {
     title: '课程成绩',
     dataIndex: 'score',
     key: 'score',
-    sorter: (l, r) => l.score - r.score
+    sorter: (l, r) => l.score - r.score,
+    width: 120
   },
   {
     title: '课程学分',
     dataIndex: 'credits',
     key: 'credits',
-    sorter: (l, r) => l.credits - r.credits
+    sorter: (l, r) => l.credits - r.credits,
+    width: 120
   },
   {
     title: '课程类型',
@@ -55,7 +59,8 @@ const columns = [
         }
       </Space>
     ),
-    sorter: (l, r) => r.optional - l.optional
+    sorter: (l, r) => r.optional - l.optional,
+    width: 140
   }
 ];
 
