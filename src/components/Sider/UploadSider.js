@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SiderItem from './SiderItem';
+import {readJsonFile} from '../../lib/file';
 import {InboxOutlined} from '@ant-design/icons';
 import {Button, message, Space, Upload} from 'antd';
 
@@ -10,7 +11,6 @@ export default class UploadSider extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      description: '',
       buffer: []
     };
   }
@@ -21,12 +21,19 @@ export default class UploadSider extends React.Component {
     };
   }
 
-  onChange = async ({file}) => {
-    if (file.status === 'done') {
-      await message.success(this.state.description);
-    } else if (file.status === 'error') {
-      await message.error(this.state.description);
+  handleJson = async (file, hook) => {
+    try {
+      const content = await readJsonFile(file);
+      console.log(content);
+      hook(true, '文件上传成功');
+    } catch (exception) {
+      hook(false, '错误：JSON 未成功解析');
     }
+  };
+
+  handleTable = async (file, hook) => {
+    console.log(file);
+    hook(true, '文件上传成功');
   };
 
   onUpload = async (upload) => {
@@ -35,28 +42,37 @@ export default class UploadSider extends React.Component {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'application/json'
     ];
+    const hook = (status, text) => {
+      if (status) {
+        upload.onSuccess();
+        message.success(text);
+      } else {
+        this.setState({
+          buffer: []
+        });
+        upload.onError();
+        message.error(text);
+      }
+    };
     if (whiteList.indexOf(upload.file.type) !== -1) {
-      this.setState({
-        description: '文件上传成功'
-      });
-      upload.onSuccess();
+      if (upload.file.type === whiteList[whiteList.length - 1]) {
+        await this.handleJson(upload.file, hook);
+      } else {
+        await this.handleTable(upload.file, hook);
+      }
     } else {
-      this.setState({
-        description: '错误：不支持的文件类型'
-      });
-      upload.onError();
+      hook(false, '错误：不支持的文件类型');
     }
   };
 
   onDataReplace = async () => {
-    if (this.state.description === '文件上传成功') {
+    if (this.state.buffer.length !== 0) {
       this.props.onDataReplace(this.state.buffer);
       this.setState({
-        description: '',
         buffer: []
       });
     } else {
-      await message.error('无法应用此文件');
+      message.error('无法应用此文件');
     }
   };
 
@@ -65,7 +81,7 @@ export default class UploadSider extends React.Component {
       <SiderItem title={'上传文件'} mt={20} mb={30} content={
         <div>
           <div>
-            <Dragger maxCount={1} customRequest={this.onUpload} onChange={this.onChange}>
+            <Dragger maxCount={1} customRequest={this.onUpload}>
               <p className='ant-upload-drag-icon'>
                 <InboxOutlined/>
               </p>

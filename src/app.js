@@ -19,21 +19,21 @@ export default class App extends React.Component {
     this.state = {
       courses: [
         {
-          name: 'aaa',
+          name: '课程一',
           score: 99,
           credits: 3,
           optional: true,
           selected: false
         },
         {
-          name: 'bbb',
+          name: '课程二',
           score: 98,
           credits: 4,
           optional: false,
           selected: true
         },
         {
-          name: 'ccc',
+          name: '课程三',
           score: 97,
           credits: 5,
           optional: false,
