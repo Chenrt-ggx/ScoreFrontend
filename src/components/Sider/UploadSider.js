@@ -51,8 +51,8 @@ export default class UploadSider extends React.Component {
           <div style={{marginTop: '25px', paddingLeft: '2px', paddingRight: '2px'}}>
             <Button type='primary'>确认</Button>
             <Space style={{marginTop: '5px', marginLeft: '8px'}}>
-              <a download={require('../../assets/demo.json')}>表格示例</a>
-              <a download={require('../../assets/demo.json')}>JSON 示例</a>
+              <a href={require('../../assets/demo_xlsx')} download={'demo.xlsx'}>表格示例</a>
+              <a href={require('../../assets/demo_json')} download={'demo.json'}>JSON 示例</a>
             </Space>
           </div>
         </div>
