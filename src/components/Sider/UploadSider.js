@@ -9,6 +9,10 @@ const {Dragger} = Upload;
 export default class UploadSider extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      description: '',
+      buffer: []
+    };
   }
 
   static get propTypes() {
@@ -17,19 +21,42 @@ export default class UploadSider extends React.Component {
     };
   }
 
-  handleUpload = async (info) => {
-    const {status} = info.file;
+  onChange = async ({file}) => {
+    if (file.status === 'done') {
+      await message.success(this.state.description);
+    } else if (file.status === 'error') {
+      await message.error(this.state.description);
+    }
+  };
+
+  onUpload = async (upload) => {
     const whiteList = [
       'application/vnd.ms-excel',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'application/json'
     ];
-    if (whiteList.indexOf(info.file.type.toString()) !== -1) {
-      await message.error('错误：不支持的文件类型');
-    } else if (status === 'done') {
-      await message.success(`'${info.file.name}' 上传成功`);
-    } else if (status === 'error') {
-      await message.error('文件上传出错');
+    if (whiteList.indexOf(upload.file.type) !== -1) {
+      this.setState({
+        description: '文件上传成功'
+      });
+      upload.onSuccess();
+    } else {
+      this.setState({
+        description: '错误：不支持的文件类型'
+      });
+      upload.onError();
+    }
+  };
+
+  onDataReplace = async () => {
+    if (this.state.description === '文件上传成功') {
+      this.props.onDataReplace(this.state.buffer);
+      this.setState({
+        description: '',
+        buffer: []
+      });
+    } else {
+      await message.error('无法应用此文件');
     }
   };
 
@@ -38,7 +65,7 @@ export default class UploadSider extends React.Component {
       <SiderItem title={'上传文件'} mt={20} mb={30} content={
         <div>
           <div>
-            <Dragger beforeUpload={() => false} maxCount={1} onChange={this.handleUpload}>
+            <Dragger maxCount={1} customRequest={this.onUpload} onChange={this.onChange}>
               <p className='ant-upload-drag-icon'>
                 <InboxOutlined/>
               </p>
@@ -49,7 +76,7 @@ export default class UploadSider extends React.Component {
             </Dragger>
           </div>
           <div style={{marginTop: '25px', paddingLeft: '2px', paddingRight: '2px'}}>
-            <Button type='primary'>确认</Button>
+            <Button type='primary' onClick={this.onDataReplace}>确认</Button>
             <Space style={{marginTop: '5px', marginLeft: '8px'}}>
               <a href={require('../../assets/demo_xlsx')} download={'demo.xlsx'}>表格示例</a>
               <a href={require('../../assets/demo_json')} download={'demo.json'}>JSON 示例</a>
