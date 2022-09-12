@@ -80,11 +80,11 @@ export default class MainTable extends React.Component {
       key: 'optional',
       render: (_, item) => (
         <Space>
-          <Tag color={item.optional ? 'geekblue' : 'green'} key={item.optional}>
+          <Tag color={item.optional ? 'geekblue' : 'green'}>
             {item.optional ? '一般专业' : '非一般专业'}
           </Tag>
           {item.selected &&
-          <Tag color={'orange'} key={item.selected}>
+          <Tag color={'orange'}>
             {'计入'}
           </Tag>
           }

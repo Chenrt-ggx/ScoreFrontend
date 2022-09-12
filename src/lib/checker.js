@@ -50,11 +50,16 @@ export function formatCheck(data, hook) {
       && inRange(item['credits'], 0.5, 10)
       && isBool(item['optional']);
   };
+  const unique = new Set();
   for (let i = 0; i < data.length; ++i) {
     if (!checkItem(data[i])) {
       hook(false, '错误：第 ' + i + ' 项格式错误');
       return false;
+    } else if (unique.has(data[i]['name'])) {
+      hook(false, '错误：存在重复的' + data[i]['name']);
+      return false;
     }
+    unique.add(data[i]['name']);
   }
   return true;
 }

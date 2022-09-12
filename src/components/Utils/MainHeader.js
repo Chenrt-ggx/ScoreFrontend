@@ -37,12 +37,10 @@ export default class MainHeader extends React.Component {
             <Divider type='vertical' style={{height: '32px', marginTop: '-2px'}}/>
             Score Calculator and General Professional Course Selector for BUAA Computer Science
           </span>
-          {
-            document.body.clientWidth >= this.props.widthLimit && (
-              <span style={{float: 'right', marginRight: '-' + this.props.marginFix}}>
-                <Timer/>
-              </span>
-            )
+          {document.body.clientWidth >= this.props.widthLimit &&
+            <span style={{float: 'right', marginRight: '-' + this.props.marginFix}}>
+              <Timer/>
+            </span>
           }
         </Col>
       </Row>
