@@ -103,7 +103,9 @@ export default class App extends React.Component {
           <Col span={6} style={{paddingRight: '5px'}}>
             <OperateSider onDataClear={this.onDataClear}/>
             <UploadSider onDataReplace={this.onDataReplace}/>
+            {this.state.courses.filter((i) => i.optional).length > 5 &&
             <ConfigSider onDataAppend={this.onDataAppend}/>
+            }
           </Col>
         </Row>
         <Footer style={{textAlign: 'center', marginBottom: '2vw'}}>
