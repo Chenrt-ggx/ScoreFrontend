@@ -54,6 +54,9 @@ export default class App extends React.Component {
   };
 
   onDataClear = () => {
+    this.setState({
+      courses: []
+    });
   };
 
   onDataAppend = (dataUpdate) => {

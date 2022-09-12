@@ -24,9 +24,14 @@ export async function getEncoding(file) {
   return lib.detect(blob).encoding;
 }
 
-export async function readJsonFile(file) {
-  let encoding = await getEncoding(file);
-  encoding = encoding === 'UTF-8' ? encoding : 'GBK';
-  const data = await readAsText(file, encoding);
-  return JSON.parse(data.toString());
+export async function readJsonFile(file, hook) {
+  try {
+    let encoding = await getEncoding(file);
+    encoding = encoding === 'UTF-8' ? encoding : 'GBK';
+    const data = await readAsText(file, encoding);
+    return JSON.parse(data.toString());
+  } catch (exception) {
+    hook(false, '错误：JSON 未成功解析');
+    return false;
+  }
 }

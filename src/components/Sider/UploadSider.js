@@ -4,6 +4,7 @@ import SiderItem from './SiderItem';
 import {readJsonFile} from '../../lib/file';
 import {InboxOutlined} from '@ant-design/icons';
 import {Button, message, Space, Upload} from 'antd';
+import {jsonCheck, formatCheck} from '../../lib/checker';
 
 const {Dragger} = Upload;
 
@@ -21,21 +22,6 @@ export default class UploadSider extends React.Component {
     };
   }
 
-  handleJson = async (file, hook) => {
-    try {
-      const content = await readJsonFile(file);
-      console.log(content);
-      hook(true, '文件上传成功');
-    } catch (exception) {
-      hook(false, '错误：JSON 未成功解析');
-    }
-  };
-
-  handleTable = async (file, hook) => {
-    console.log(file);
-    hook(true, '文件上传成功');
-  };
-
   onUpload = async (upload) => {
     const whiteList = [
       'application/vnd.ms-excel',
@@ -45,7 +31,7 @@ export default class UploadSider extends React.Component {
     const hook = (status, text) => {
       if (status) {
         upload.onSuccess();
-        message.success(text);
+        message.success('文件上传成功');
       } else {
         this.setState({
           buffer: []
@@ -56,9 +42,12 @@ export default class UploadSider extends React.Component {
     };
     if (whiteList.indexOf(upload.file.type) !== -1) {
       if (upload.file.type === whiteList[whiteList.length - 1]) {
-        await this.handleJson(upload.file, hook);
+        const content = await readJsonFile(upload.file, hook);
+        if (content && jsonCheck(content, hook) && formatCheck(content, hook)) {
+          hook(true);
+        }
       } else {
-        await this.handleTable(upload.file, hook);
+        hook(true);
       }
     } else {
       hook(false, '错误：不支持的文件类型');
