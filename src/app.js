@@ -1,10 +1,12 @@
 import './app.css';
 import React from 'react';
-import {Col, Row, Layout, Divider, Empty} from 'antd';
-import {InfoCircleOutlined, SelectOutlined} from '@ant-design/icons';
+import core from './lib/core';
+import update from 'immutability-helper';
+import {InfoCircleOutlined} from '@ant-design/icons';
+import {message, Col, Row, Layout, Empty} from 'antd';
 
-import Timer from './components/Utils/Timer';
 import MainTable from './components/Utils/MainTable';
+import MainHeader from './components/Utils/MainHeader';
 import ConfigSider from './components/Sider/ConfigSider';
 import UploadSider from './components/Sider/UploadSider';
 import OperateSider from './components/Sider/OperateSider';
@@ -17,29 +19,7 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      courses: [
-        {
-          name: '课程一',
-          score: 99,
-          credits: 3,
-          optional: true,
-          selected: false
-        },
-        {
-          name: '课程二',
-          score: 98,
-          credits: 4,
-          optional: false,
-          selected: true
-        },
-        {
-          name: '课程三',
-          score: 97,
-          credits: 5,
-          optional: false,
-          selected: true
-        }
-      ]
+      courses: []
     };
   }
 
@@ -50,7 +30,17 @@ export default class App extends React.Component {
   };
 
   onItemDelete = (item) => {
-    console.log(item);
+    try {
+      const next = core(this.state.courses.filter((i) => i.name !== item), 5);
+      this.setState({
+        courses: next
+      });
+    } catch (e) {
+      if (e.message === 'selectable course not enough') {
+        message.error('删除失败：一般专业课不足').then(() => {
+        });
+      }
+    }
   };
 
   onDataClear = () => {
@@ -60,31 +50,38 @@ export default class App extends React.Component {
   };
 
   onDataAppend = (dataUpdate) => {
-    console.log(dataUpdate);
+    this.setState({
+      courses: core(update(this.state.courses, {
+        $push: [dataUpdate]
+      }), 5)
+    });
   };
 
   onDataReplace = (dataReplace) => {
-    console.log(dataReplace);
+    try {
+      const next = core(dataReplace, 5);
+      this.setState({
+        courses: next
+      });
+    } catch (e) {
+      if (e.message === 'selectable course not enough') {
+        message.error('导入失败：一般专业课不足').then(() => {
+        });
+      }
+    }
   };
 
   render() {
     return (
       <Layout>
         <Header className='title-font' style={{backgroundColor: '#f0f2f5', marginBottom: '-20px'}}>
-          <span style={{float: 'left', marginLeft: '2vw'}}>
-            <SelectOutlined/>
-            <Divider type='vertical' style={{height: '2vw', marginTop: '-0.1vw'}}/>
-            Score Calculator and General Professional Course Selector for BUAA Computer Science
-          </span>
-          <span style={{float: 'right', marginRight: '2vw'}}>
-            <Timer/>
-          </span>
+          <MainHeader marginFix={'4vw'} widthLimit={1080}/>
         </Header>
         <Row style={{marginTop: '25px'}}>
           <Col md={0} lg={1} xl={2}/>
           <Col md={18} lg={16} xl={14} style={{paddingLeft: '5px'}}>{
             this.state.courses.length === 0 ?
-              <Empty description={'暂无数据'}/> :
+              <Empty description={'暂无数据'} style={{marginTop: '50px'}}/> :
               <div style={{marginRight: '2vw'}}>
                 <ScoreStatistic rows={this.state.courses} display={[
                   {text: '不计选择的一般专业：', filter: (item) => !item.optional},
@@ -108,7 +105,7 @@ export default class App extends React.Component {
           <MainFooter space={'middle'} title={<InfoCircleOutlined className='title-font'/>} items={[
             formatGithubRepo('https://github.com/Chenrt-ggx/ScoreCalculator'),
             formatGithubRepo('https://github.com/Chenrt-ggx/ScoreFrontend')
-          ]}/>
+          ]} marginFix={'2.5vw'}/>
         </Footer>
       </Layout>
     );

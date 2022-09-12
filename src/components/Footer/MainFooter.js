@@ -27,14 +27,15 @@ export default class MainFooter extends React.Component {
     return {
       title: PropTypes.element,
       items: PropTypes.array,
-      space: PropTypes.string
+      space: PropTypes.string,
+      marginFix: PropTypes.string
     };
   }
 
   render() {
     return (
       <div>
-        <Divider plain style={{marginBottom: '2.5vw'}}>
+        <Divider plain style={{marginBottom: this.props.marginFix}}>
           {this.props.title}
         </Divider>
         <Space size={this.props.space}>{

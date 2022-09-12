@@ -56,7 +56,7 @@ export default class MainTable extends React.Component {
       title: '课程名称',
       dataIndex: 'name',
       key: 'name',
-      sorter: (l, r) => l < r ? -1 : l > r ? 1 : 0,
+      sorter: (l, r) => l.name < r.name ? -1 : l.name > r.name ? 1 : 0,
       ellipsis: true,
       width: 160
     },
