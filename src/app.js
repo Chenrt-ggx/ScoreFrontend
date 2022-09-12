@@ -50,11 +50,16 @@ export default class App extends React.Component {
   };
 
   onDataAppend = (dataUpdate) => {
-    this.setState({
-      courses: core(update(this.state.courses, {
-        $push: [dataUpdate]
-      }), 5)
-    });
+    if (this.state.courses.find((i) => i.name === dataUpdate.name)) {
+      message.error('添加失败：课程名称重复').then(() => {
+      });
+    } else {
+      this.setState({
+        courses: core(update(this.state.courses, {
+          $push: [dataUpdate]
+        }), 5)
+      });
+    }
   };
 
   onDataReplace = (dataReplace) => {
