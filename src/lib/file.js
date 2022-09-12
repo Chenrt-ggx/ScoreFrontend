@@ -35,3 +35,17 @@ export async function readJsonFile(file, hook) {
     return false;
   }
 }
+
+export async function readTableFile(file, hook) {
+  const lib = require('xlsx');
+  const blob = await readAsBlob(file);
+  const table = lib.read(blob, {type: 'binary'});
+  if (table['Strings'] === undefined) {
+    hook(false, '错误：表格文件未成功解析');
+    return false;
+  } else if (table.SheetNames.length !== 1) {
+    hook(false, '错误：工作表不唯一');
+    return false;
+  }
+  return lib.utils.sheet_to_json(table.Sheets[table.SheetNames[table.SheetNames.length - 1]]);
+}

@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import SiderItem from './SiderItem';
-import {readJsonFile} from '../../lib/file';
 import {InboxOutlined} from '@ant-design/icons';
 import {Button, message, Space, Upload} from 'antd';
-import {jsonCheck, formatCheck} from '../../lib/checker';
+import {readJsonFile, readTableFile} from '../../lib/file';
+import {jsonCheck, tableCheck, formatCheck} from '../../lib/checker';
 
 const {Dragger} = Upload;
 
@@ -28,8 +28,11 @@ export default class UploadSider extends React.Component {
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       'application/json'
     ];
-    const hook = (status, text) => {
+    const hook = (status, info) => {
       if (status) {
+        this.setState({
+          buffer: info
+        });
         upload.onSuccess();
         message.success('文件上传成功');
       } else {
@@ -37,17 +40,20 @@ export default class UploadSider extends React.Component {
           buffer: []
         });
         upload.onError();
-        message.error(text);
+        message.error(info);
       }
     };
     if (whiteList.indexOf(upload.file.type) !== -1) {
       if (upload.file.type === whiteList[whiteList.length - 1]) {
         const content = await readJsonFile(upload.file, hook);
         if (content && jsonCheck(content, hook) && formatCheck(content, hook)) {
-          hook(true);
+          hook(true, content);
         }
       } else {
-        hook(true);
+        const content = await readTableFile(upload.file, hook);
+        if (content && tableCheck(content, hook) && formatCheck(content, hook)) {
+          hook(true, content);
+        }
       }
     } else {
       hook(false, '错误：不支持的文件类型');

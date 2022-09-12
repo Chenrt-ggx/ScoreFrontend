@@ -19,14 +19,33 @@ export function jsonCheck(data, hook) {
   }
 }
 
-export function formatTable(data, hook) {
-  console.log(data);
-  console.log(hook);
+export function tableCheck(data, hook) {
+  if (!(data instanceof Array)) {
+    hook(false, '错误：表格内容转换失败');
+    return false;
+  } else {
+    const base = [
+      {from: '课程名称', to: 'name', transform: (i) => i},
+      {from: '课程成绩', to: 'score', transform: (i) => parseFloat(i)},
+      {from: '课程学分', to: 'credits', transform: (i) => parseFloat(i)},
+      {from: '一般专业', to: 'optional', transform: (i) => i === '是' ? true : i === '否' ? false : undefined}
+    ];
+    data.forEach((i) => {
+      base.forEach((j) => {
+        if (i[j.from]) {
+          i[j.to] = j.transform(i[j.from]);
+          delete i[j.from];
+        }
+      });
+    });
+    return true;
+  }
 }
 
 export function formatCheck(data, hook) {
   const checkItem = (item) => {
     return isString(item['name'])
+      && inRange(item['name'].length, 1, 80)
       && inRange(item['score'], 60, 100)
       && inRange(item['credits'], 0.5, 10)
       && isBool(item['optional']);
