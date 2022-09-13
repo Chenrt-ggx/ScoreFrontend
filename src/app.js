@@ -2,8 +2,8 @@ import './app.css';
 import React from 'react';
 import core from './lib/core';
 import update from 'immutability-helper';
-import {InfoCircleOutlined} from '@ant-design/icons';
 import {message, Col, Row, Layout, Empty} from 'antd';
+import {FileMarkdownOutlined, InfoCircleOutlined} from '@ant-design/icons';
 
 import MainTable from './components/Utils/MainTable';
 import MainHeader from './components/Utils/MainHeader';
@@ -109,7 +109,12 @@ export default class App extends React.Component {
           </Col>
         </Row>
         <Footer style={{textAlign: 'center', marginBottom: '2vw'}}>
-          <MainFooter space={'middle'} title={<InfoCircleOutlined className='title-font'/>} items={[
+          <MainFooter space={5} title={<InfoCircleOutlined className='title-font'/>} items={[
+            {
+              url: 'https://www.cnblogs.com/Chenrt/p/16675891.html',
+              name: 'Algorithm Description',
+              icon: <FileMarkdownOutlined/>
+            },
             formatGithubRepo('https://github.com/Chenrt-ggx/ScoreCalculator'),
             formatGithubRepo('https://github.com/Chenrt-ggx/ScoreFrontend')
           ]} marginFix={'2.5vw'}/>

@@ -12,14 +12,23 @@ export default class FooterItem extends React.Component {
     return {
       icon: PropTypes.element,
       url: PropTypes.string,
-      name: PropTypes.string
+      name: PropTypes.string,
+      space: PropTypes.number
     };
   }
 
   render() {
     return (
       <a key={this.props.url} href={this.props.url}>
-        <Card size='small' style={{width: 300, display: 'inline-block', fontSize: '20px'}}>
+        <Card size='small'
+          style={{
+            width: 300,
+            display: 'inline-block',
+            fontSize: '20px',
+            marginLeft: this.props.space + 'px',
+            marginRight: this.props.space + 'px',
+            marginBottom: this.props.space + 'px'
+          }}>
           <span style={{float: 'left', marginLeft: '5px'}}>
             {this.props.icon}
             <Divider type='vertical'/>

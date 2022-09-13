@@ -1,6 +1,6 @@
 import React from 'react';
+import {Divider} from 'antd';
 import PropTypes from 'prop-types';
-import {Divider, Space} from 'antd';
 import FooterItem from './FooterItem';
 import {GithubOutlined} from '@ant-design/icons';
 
@@ -27,7 +27,7 @@ export default class MainFooter extends React.Component {
     return {
       title: PropTypes.element,
       items: PropTypes.array,
-      space: PropTypes.string,
+      space: PropTypes.number,
       marginFix: PropTypes.string
     };
   }
@@ -38,10 +38,7 @@ export default class MainFooter extends React.Component {
         <Divider plain style={{marginBottom: this.props.marginFix}}>
           {this.props.title}
         </Divider>
-        <Space size={this.props.space}>{
-          this.props.items.map((i) => <FooterItem key={i.url} {...i}/>)
-        }
-        </Space>
+        {this.props.items.map((i) => <FooterItem key={i.url} space={this.props.space} {...i}/>)}
       </div>
     );
   }
