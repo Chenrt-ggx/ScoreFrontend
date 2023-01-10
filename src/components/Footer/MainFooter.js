@@ -1,8 +1,9 @@
 import React from 'react';
 import { Divider } from 'antd';
 import PropTypes from 'prop-types';
-import FooterItem from './FooterItem';
 import { GithubOutlined } from '@ant-design/icons';
+
+import FooterItem from './FooterItem';
 
 export const formatGithubRepo = (repo) => {
   const split = repo.split('/');

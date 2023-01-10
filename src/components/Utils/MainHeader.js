@@ -1,8 +1,9 @@
 import React from 'react';
-import Timer from './Timer';
 import PropTypes from 'prop-types';
 import { Col, Divider, Row } from 'antd';
 import { SelectOutlined } from '@ant-design/icons';
+
+import Timer from './Timer';
 
 export default class MainHeader extends React.Component {
   constructor(props) {

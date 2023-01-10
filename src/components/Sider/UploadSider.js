@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SiderItem from './SiderItem';
 import { InboxOutlined } from '@ant-design/icons';
 import { Button, message, Space, Upload } from 'antd';
+
+import SiderItem from './SiderItem';
 import { readJsonFile, readTableFile } from '../../lib/file';
 import { jsonCheck, tableCheck, formatCheck } from '../../lib/checker';
 

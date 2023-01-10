@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import StatisticItem from './StatisticItem';
 
 const calculateScore = (buf) => {

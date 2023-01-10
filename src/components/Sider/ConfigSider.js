@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import SiderItem from './SiderItem';
 import { Button, Form, Input, InputNumber, Radio, Space } from 'antd';
+
+import SiderItem from './SiderItem';
 
 export default class ConfigSider extends React.Component {
   formRef = React.createRef();
