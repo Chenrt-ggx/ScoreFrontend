@@ -10,9 +10,10 @@ export default class Timer extends React.Component {
 
   componentDidMount() {
     this.timerID = setInterval(
-      () => this.setState({
-        date: new Date()
-      }),
+      () =>
+        this.setState({
+          date: new Date()
+        }),
       500
     );
   }
@@ -22,6 +23,6 @@ export default class Timer extends React.Component {
   }
 
   render() {
-    return (this.state.date.toLocaleString());
+    return this.state.date.toLocaleString();
   }
 }

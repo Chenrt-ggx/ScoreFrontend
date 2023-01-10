@@ -1,8 +1,8 @@
 import React from 'react';
-import {Divider} from 'antd';
+import { Divider } from 'antd';
 import PropTypes from 'prop-types';
 import FooterItem from './FooterItem';
-import {GithubOutlined} from '@ant-design/icons';
+import { GithubOutlined } from '@ant-design/icons';
 
 export const formatGithubRepo = (repo) => {
   const split = repo.split('/');
@@ -15,7 +15,7 @@ export const formatGithubRepo = (repo) => {
       result += name[i];
     }
   }
-  return {url: repo, name: result, icon: <GithubOutlined/>};
+  return { url: repo, name: result, icon: <GithubOutlined /> };
 };
 
 export default class MainFooter extends React.Component {
@@ -35,10 +35,12 @@ export default class MainFooter extends React.Component {
   render() {
     return (
       <div>
-        <Divider plain style={{marginBottom: this.props.marginFix}}>
+        <Divider plain style={{ marginBottom: this.props.marginFix }}>
           {this.props.title}
         </Divider>
-        {this.props.items.map((i) => <FooterItem key={i.url} space={this.props.space} {...i}/>)}
+        {this.props.items.map((i) => (
+          <FooterItem key={i.url} space={this.props.space} {...i} />
+        ))}
       </div>
     );
   }

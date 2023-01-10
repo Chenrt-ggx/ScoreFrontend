@@ -25,10 +25,10 @@ export function tableCheck(data, hook) {
     return false;
   } else {
     const base = [
-      {from: '课程名称', to: 'name', transform: (i) => i},
-      {from: '课程成绩', to: 'score', transform: (i) => parseFloat(i)},
-      {from: '课程学分', to: 'credits', transform: (i) => parseFloat(i)},
-      {from: '一般专业', to: 'optional', transform: (i) => i === '是' ? true : i === '否' ? false : undefined}
+      { from: '课程名称', to: 'name', transform: (i) => i },
+      { from: '课程成绩', to: 'score', transform: (i) => parseFloat(i) },
+      { from: '课程学分', to: 'credits', transform: (i) => parseFloat(i) },
+      { from: '一般专业', to: 'optional', transform: (i) => (i === '是' ? true : i === '否' ? false : undefined) }
     ];
     data.forEach((i) => {
       base.forEach((j) => {
@@ -44,11 +44,13 @@ export function tableCheck(data, hook) {
 
 export function formatCheck(data, hook) {
   const checkItem = (item) => {
-    return isString(item['name'])
-      && inRange(item['name'].length, 1, 80)
-      && inRange(item['score'], 60, 100)
-      && inRange(item['credits'], 0.5, 10)
-      && isBool(item['optional']);
+    return (
+      isString(item['name']) &&
+      inRange(item['name'].length, 1, 80) &&
+      inRange(item['score'], 60, 100) &&
+      inRange(item['credits'], 0.5, 10) &&
+      isBool(item['optional'])
+    );
   };
   const unique = new Set();
   for (let i = 0; i < data.length; ++i) {

@@ -21,10 +21,8 @@ export default class ScoreStatistic extends React.Component {
   }
 
   render() {
-    return (
-      this.props.display.map((i) => (
-        <StatisticItem text={i.text} key={i.text} percent={calculateScore(this.props.rows.filter(i.filter))}/>
-      ))
-    );
+    return this.props.display.map((i) => (
+      <StatisticItem text={i.text} key={i.text} percent={calculateScore(this.props.rows.filter(i.filter))} />
+    ));
   }
 }

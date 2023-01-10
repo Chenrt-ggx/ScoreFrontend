@@ -39,7 +39,7 @@ export async function readJsonFile(file, hook) {
 export async function readTableFile(file, hook) {
   const lib = require('xlsx');
   const blob = await readAsBlob(file);
-  const table = lib.read(blob, {type: 'binary'});
+  const table = lib.read(blob, { type: 'binary' });
   if (table['Strings'] === undefined) {
     hook(false, '错误：表格文件未成功解析');
     return false;

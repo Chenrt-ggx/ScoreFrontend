@@ -1,27 +1,29 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import update from 'immutability-helper';
-import {HTML5Backend} from 'react-dnd-html5-backend';
-import {DndProvider, useDrag, useDrop} from 'react-dnd';
-import {Button, Space, Table, Tag, Popconfirm} from 'antd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { Button, Space, Table, Tag, Popconfirm } from 'antd';
 
 // eslint-disable-next-line react/prop-types
-const DraggableBodyRow = ({index, moveRow, className, style, ...restProps}) => {
+const DraggableBodyRow = ({ index, moveRow, className, style, ...restProps }) => {
   const ref = React.useRef(null);
-  const [{isOver, dropClassName}, drop ] = useDrop({
+  const [{ isOver, dropClassName }, drop] = useDrop({
     accept: 'DraggableBodyRow',
     collect: (monitor) => {
-      const {index: dragIndex} = monitor.getItem() || {};
-      return dragIndex === index ? {} : {
-        isOver: monitor.isOver(),
-        dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward'
-      };
+      const { index: dragIndex } = monitor.getItem() || {};
+      return dragIndex === index
+        ? {}
+        : {
+            isOver: monitor.isOver(),
+            dropClassName: dragIndex < index ? ' drop-over-downward' : ' drop-over-upward'
+          };
     },
     drop: (item) => moveRow(item.index, index)
   });
-  const [ , drag ] = useDrag({
+  const [, drag] = useDrag({
     type: 'DraggableBodyRow',
-    item: {index},
+    item: { index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging()
     })
@@ -31,7 +33,7 @@ const DraggableBodyRow = ({index, moveRow, className, style, ...restProps}) => {
     <tr
       ref={ref}
       className={`${className}${isOver ? dropClassName : ''}`}
-      style={{cursor: 'move', ...style}}
+      style={{ cursor: 'move', ...style }}
       {...restProps}
     />
   );
@@ -56,7 +58,7 @@ export default class MainTable extends React.Component {
       title: '课程名称',
       dataIndex: 'name',
       key: 'name',
-      sorter: (l, r) => l.name < r.name ? -1 : l.name > r.name ? 1 : 0,
+      sorter: (l, r) => (l.name < r.name ? -1 : l.name > r.name ? 1 : 0),
       ellipsis: true,
       width: 160
     },
@@ -80,14 +82,8 @@ export default class MainTable extends React.Component {
       key: 'optional',
       render: (_, item) => (
         <Space>
-          <Tag color={item.optional ? 'geekblue' : 'green'}>
-            {item.optional ? '一般专业' : '非一般专业'}
-          </Tag>
-          {item.selected &&
-          <Tag color={'orange'}>
-            {'计入'}
-          </Tag>
-          }
+          <Tag color={item.optional ? 'geekblue' : 'green'}>{item.optional ? '一般专业' : '非一般专业'}</Tag>
+          {item.selected && <Tag color={'orange'}>{'计入'}</Tag>}
         </Space>
       ),
       sorter: (l, r) => r.optional - l.optional,
@@ -99,7 +95,7 @@ export default class MainTable extends React.Component {
       render: (_, record) =>
         this.props.items.length > 0 ? (
           <Popconfirm
-            title='确定删除？'
+            title="确定删除？"
             okText={'确定'}
             cancelText={'取消'}
             onConfirm={() => this.props.onItemDelete(record.key)}
@@ -119,19 +115,24 @@ export default class MainTable extends React.Component {
           id={this.props.id}
           columns={this.columns}
           dataSource={this.props.items.map((i) => {
-            return {...i, key: i.name};
+            return { ...i, key: i.name };
           })}
           size={'middle'}
           pagination={false}
-          style={{marginTop: '25px'}}
-          components={{body: {row: DraggableBodyRow}}}
+          style={{ marginTop: '25px' }}
+          components={{ body: { row: DraggableBodyRow } }}
           onRow={(record, index) => ({
             index,
             moveRow: (dragIndex, hoverIndex) => {
               const dragRow = this.props.items[dragIndex];
-              this.props.onItemDrag(update(this.props.items, {
-                $splice: [[ dragIndex, 1 ], [ hoverIndex, 0, dragRow ]]
-              }));
+              this.props.onItemDrag(
+                update(this.props.items, {
+                  $splice: [
+                    [dragIndex, 1],
+                    [hoverIndex, 0, dragRow]
+                  ]
+                })
+              );
             }
           })}
         />

@@ -1,12 +1,12 @@
 .title-font {
-    color: #030852;
-    font-size: 19px;
+  color: #030852;
+  font-size: 19px;
 }
 
 #main-table tr.drop-over-downward td {
-    border-bottom: 2px dashed #1890ff;
+  border-bottom: 2px dashed #1890ff;
 }
 
 #main-table tr.drop-over-upward td {
-    border-top: 2px dashed #1890ff;
+  border-top: 2px dashed #1890ff;
 }
