@@ -1,4 +1,4 @@
-export function readAsBlob(file) {
+export const readAsBlob = (file) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsBinaryString(file);
@@ -6,9 +6,9 @@ export function readAsBlob(file) {
       resolve(event.target.result);
     };
   });
-}
+};
 
-export function readAsText(file, encoding) {
+export const readAsText = (file, encoding) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
     reader.readAsText(file, encoding);
@@ -16,15 +16,15 @@ export function readAsText(file, encoding) {
       resolve(event.target.result);
     };
   });
-}
+};
 
-export async function getEncoding(file) {
+export const getEncoding = async (file) => {
   const lib = require('jschardet');
   const blob = await readAsBlob(file);
   return lib.detect(blob).encoding;
-}
+};
 
-export async function readJsonFile(file, hook) {
+export const readJsonFile = async (file, hook) => {
   try {
     let encoding = await getEncoding(file);
     encoding = encoding === 'UTF-8' ? encoding : 'GBK';
@@ -34,9 +34,9 @@ export async function readJsonFile(file, hook) {
     hook(false, '错误：JSON 未成功解析');
     return false;
   }
-}
+};
 
-export async function readTableFile(file, hook) {
+export const readTableFile = async (file, hook) => {
   const lib = require('xlsx');
   const blob = await readAsBlob(file);
   const table = lib.read(blob, { type: 'binary' });
@@ -48,4 +48,4 @@ export async function readTableFile(file, hook) {
     return false;
   }
   return lib.utils.sheet_to_json(table.Sheets[table.SheetNames[table.SheetNames.length - 1]]);
-}
+};

@@ -1,25 +1,19 @@
-const isBool = (item) => {
-  return item === true || item === false;
-};
+const isBool = (item) => item === true || item === false;
 
-const isString = (item) => {
-  return typeof item === 'string';
-};
+const isString = (item) => typeof item === 'string';
 
-const inRange = (item, l, r) => {
-  return typeof item === 'number' && l <= item && item <= r;
-};
+const inRange = (item, l, r) => typeof item === 'number' && l <= item && item <= r;
 
-export function jsonCheck(data, hook) {
+export const jsonCheck = (data, hook) => {
   if (!(data instanceof Array)) {
     hook(false, '错误：JSON 内容非数组');
     return false;
   } else {
     return true;
   }
-}
+};
 
-export function tableCheck(data, hook) {
+export const tableCheck = (data, hook) => {
   if (!(data instanceof Array)) {
     hook(false, '错误：表格内容转换失败');
     return false;
@@ -40,9 +34,9 @@ export function tableCheck(data, hook) {
     });
     return true;
   }
-}
+};
 
-export function formatCheck(data, hook) {
+export const formatCheck = (data, hook) => {
   const checkItem = (item) => {
     return (
       isString(item['name']) &&
@@ -64,4 +58,4 @@ export function formatCheck(data, hook) {
     unique.add(data[i]['name']);
   }
   return true;
-}
+};
