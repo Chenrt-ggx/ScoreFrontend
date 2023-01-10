@@ -21,14 +21,14 @@ export const readAsText = (file, encoding) => {
 export const getEncoding = async (file) => {
   const lib = require('jschardet');
   const blob = await readAsBlob(file);
-  return lib.detect(blob).encoding;
+  const mapped = Array.prototype.slice.apply(new Uint8Array(blob)).map((i) => String.fromCharCode(i));
+  return lib.detect(mapped.join('')).encoding;
 };
 
 export const readJsonFile = async (file, hook) => {
   try {
-    let encoding = await getEncoding(file);
-    encoding = encoding === 'UTF-8' ? encoding : 'GBK';
-    const data = await readAsText(file, encoding);
+    const encoding = await getEncoding(file);
+    const data = await readAsText(file, encoding || 'UTF-8');
     return JSON.parse(data.toString());
   } catch (exception) {
     hook(false, '错误：JSON 未成功解析');
