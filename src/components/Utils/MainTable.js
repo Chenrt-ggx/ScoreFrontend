@@ -121,9 +121,8 @@ export default class MainTable extends React.Component {
           pagination={false}
           style={{ marginTop: '25px' }}
           components={{ body: { row: DraggableBodyRow } }}
-          onRow={(record, index) => ({
-            index,
-            moveRow: (dragIndex, hoverIndex) => {
+          onRow={(record, index) => {
+            const moveRow = (dragIndex, hoverIndex) => {
               const dragRow = this.props.items[dragIndex];
               this.props.onItemDrag(
                 update(this.props.items, {
@@ -133,8 +132,9 @@ export default class MainTable extends React.Component {
                   ]
                 })
               );
-            }
-          })}
+            };
+            return { index, moveRow };
+          }}
         />
       </DndProvider>
     );

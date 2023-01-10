@@ -1,7 +1,7 @@
 export const readAsBlob = (file) => {
   return new Promise((resolve) => {
     const reader = new FileReader();
-    reader.readAsBinaryString(file);
+    reader.readAsArrayBuffer(file);
     reader.onload = (event) => {
       resolve(event.target.result);
     };
