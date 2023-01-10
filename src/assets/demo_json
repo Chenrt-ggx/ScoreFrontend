@@ -1,20 +1,242 @@
 [
     {
-        "name": "课程一",
-        "score": 100,
-        "credits": 2,
-        "optional": true
+        "name": "课程1",
+        "score": 90,
+        "credits": 4,
+        "optional": false
     },
     {
-        "name": "课程二",
-        "score": 100,
+        "name": "课程2",
+        "score": 86,
+        "credits": 4.5,
+        "optional": false
+    },
+    {
+        "name": "课程3",
+        "score": 87,
         "credits": 2,
         "optional": false
     },
     {
-        "name": "课程三",
-        "score": 100,
+        "name": "课程4",
+        "score": 77,
+        "credits": 2.5,
+        "optional": false
+    },
+    {
+        "name": "课程5",
+        "score": 77,
+        "credits": 1,
+        "optional": false
+    },
+    {
+        "name": "课程6",
+        "score": 92,
         "credits": 2,
+        "optional": false
+    },
+    {
+        "name": "课程7",
+        "score": 91,
+        "credits": 3,
+        "optional": false
+    },
+    {
+        "name": "课程8",
+        "score": 60,
+        "credits": 3,
+        "optional": false
+    },
+    {
+        "name": "课程9",
+        "score": 84,
+        "credits": 3.5,
+        "optional": false
+    },
+    {
+        "name": "课程10",
+        "score": 75,
+        "credits": 2.5,
+        "optional": false
+    },
+    {
+        "name": "课程11",
+        "score": 71,
+        "credits": 2.5,
+        "optional": false
+    },
+    {
+        "name": "课程12",
+        "score": 88,
+        "credits": 4.5,
+        "optional": true
+    },
+    {
+        "name": "课程13",
+        "score": 72,
+        "credits": 2.5,
+        "optional": true
+    },
+    {
+        "name": "课程14",
+        "score": 80,
+        "credits": 3,
+        "optional": true
+    },
+    {
+        "name": "课程15",
+        "score": 76,
+        "credits": 4,
+        "optional": false
+    },
+    {
+        "name": "课程16",
+        "score": 89,
+        "credits": 3,
+        "optional": false
+    },
+    {
+        "name": "课程17",
+        "score": 87,
+        "credits": 5,
+        "optional": false
+    },
+    {
+        "name": "课程18",
+        "score": 80,
+        "credits": 3.5,
+        "optional": false
+    },
+    {
+        "name": "课程19",
+        "score": 91,
+        "credits": 1,
+        "optional": true
+    },
+    {
+        "name": "课程20",
+        "score": 69,
+        "credits": 0.5,
+        "optional": false
+    },
+    {
+        "name": "课程21",
+        "score": 80,
+        "credits": 3,
+        "optional": false
+    },
+    {
+        "name": "课程22",
+        "score": 79,
+        "credits": 0.5,
+        "optional": false
+    },
+    {
+        "name": "课程23",
+        "score": 92,
+        "credits": 6,
+        "optional": false
+    },
+    {
+        "name": "课程24",
+        "score": 79,
+        "credits": 1.5,
+        "optional": false
+    },
+    {
+        "name": "课程25",
+        "score": 67,
+        "credits": 2.5,
+        "optional": false
+    },
+    {
+        "name": "课程26",
+        "score": 74,
+        "credits": 4.5,
+        "optional": false
+    },
+    {
+        "name": "课程27",
+        "score": 85,
+        "credits": 1,
+        "optional": false
+    },
+    {
+        "name": "课程28",
+        "score": 89,
+        "credits": 6,
+        "optional": true
+    },
+    {
+        "name": "课程29",
+        "score": 82,
+        "credits": 4.5,
+        "optional": false
+    },
+    {
+        "name": "课程30",
+        "score": 94,
+        "credits": 0.5,
+        "optional": false
+    },
+    {
+        "name": "课程31",
+        "score": 95,
+        "credits": 5.5,
+        "optional": false
+    },
+    {
+        "name": "课程32",
+        "score": 72,
+        "credits": 1.5,
+        "optional": true
+    },
+    {
+        "name": "课程33",
+        "score": 99,
+        "credits": 6,
+        "optional": false
+    },
+    {
+        "name": "课程34",
+        "score": 71,
+        "credits": 6,
+        "optional": false
+    },
+    {
+        "name": "课程35",
+        "score": 61,
+        "credits": 5,
+        "optional": true
+    },
+    {
+        "name": "课程36",
+        "score": 82,
+        "credits": 4.5,
+        "optional": false
+    },
+    {
+        "name": "课程37",
+        "score": 85,
+        "credits": 1.5,
+        "optional": true
+    },
+    {
+        "name": "课程38",
+        "score": 66,
+        "credits": 4.5,
+        "optional": true
+    },
+    {
+        "name": "课程39",
+        "score": 74,
+        "credits": 4.5,
+        "optional": true
+    },
+    {
+        "name": "课程40",
+        "score": 73,
+        "credits": 4.5,
         "optional": false
     }
 ]

@@ -88,7 +88,7 @@ export default class UploadSider extends React.Component {
                 <p className="ant-upload-hint">支持上传表格文件和 JSON 文件</p>
               </Dragger>
             </div>
-            <div style={{ marginTop: '25px', paddingLeft: '2px', paddingRight: '2px' }}>
+            <div style={{ marginTop: '25px', paddingLeft: '2px', paddingRight: '2px', fontSize: '14px' }}>
               <Button type="primary" onClick={this.onDataReplace}>
                 确认
               </Button>

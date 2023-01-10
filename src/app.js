@@ -1,10 +1,10 @@
-import './app.css';
 import React from 'react';
-import core from './lib/core';
 import update from 'immutability-helper';
 import { message, Col, Row, Layout, Empty } from 'antd';
 import { FileMarkdownOutlined, InfoCircleOutlined } from '@ant-design/icons';
 
+import './app.css';
+import core from './lib/core';
 import MainTable from './components/Utils/MainTable';
 import MainHeader from './components/Utils/MainHeader';
 import ConfigSider from './components/Sider/ConfigSider';
