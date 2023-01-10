@@ -5,7 +5,7 @@
 
 A React Frontend for Score Calculator.
 
-- For algorithm, see [this page](https://github.com/Chenrt-ggx/ScoreCalculator).
+- For algorithm, see [this repo](https://github.com/Chenrt-ggx/ScoreCalculator).
 - For more, see [this blog](https://www.cnblogs.com/Chenrt/p/16675891.html).
 
 ## Project setup
